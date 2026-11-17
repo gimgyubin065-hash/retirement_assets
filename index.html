@@ -1,0 +1,1944 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 노후자산 설계사 로엔 | ROEN</title>
+
+<style>
+:root {
+  --green:#205e50;
+  --deep:#153e36;
+  --mint:#e8f4ed;
+  --gold:#d6ab61;
+  --cream:#faf8f2;
+  --white:#fff;
+  --text:#34483e;
+  --muted:#7a8c83;
+  --line:#e0e9e2;
+  --red:#c45859;
+  --blue:#4c88c1;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:var(--cream);
+  color:var(--text);
+  font-family:"Malgun Gothic","Apple SD Gothic Neo",
+              Arial,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+}
+
+button,input { font:inherit; }
+button { cursor:pointer; }
+button:disabled { opacity:.5;cursor:not-allowed; }
+
+button:focus-visible,
+input:focus-visible {
+  outline:3px solid #90cdb1;
+  outline-offset:2px;
+}
+
+.hidden { display:none!important; }
+.screen { display:none; }
+.screen.active { display:block; }
+
+.container {
+  width:min(1080px,94%);
+  margin:auto;
+}
+
+.card {
+  background:white;
+  padding:25px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 8px 26px #205e5010;
+  margin-bottom:20px;
+}
+
+h1,h2,h3,p { overflow-wrap:anywhere; }
+h2 { font-size:24px;margin:0 0 16px; }
+h3 { font-size:19px;margin:12px 0; }
+
+.muted {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+}
+
+.btn {
+  background:var(--green);
+  color:white;
+  border:0;
+  border-radius:14px;
+  padding:15px 22px;
+  font-weight:800;
+  transition:background .2s,transform .2s;
+}
+
+.btn:hover:not(:disabled) { background:#154b3e; }
+.btn:active:not(:disabled) { transform:scale(.97); }
+
+.btn-light {
+  background:var(--mint);
+  color:var(--green);
+}
+
+.btn-light:hover:not(:disabled) { background:#d9ebdf; }
+
+.btn-outline {
+  border:2px solid var(--green);
+  background:white;
+  color:var(--green);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background:var(--mint);
+}
+
+.btn-small { font-size:14px;padding:10px 14px; }
+.full { width:100%; }
+
+.row {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.between {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid-3 {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+
+label {
+  display:block;
+  font-size:15px;
+  font-weight:800;
+  margin:15px 0 8px;
+}
+
+input {
+  width:100%;
+  min-width:0;
+  padding:14px;
+  border:2px solid var(--line);
+  border-radius:12px;
+  color:var(--text);
+  background:#fcfefc;
+}
+
+input:focus {
+  outline:none;
+  border-color:var(--green);
+}
+
+.tag {
+  display:inline-block;
+  padding:7px 12px;
+  background:var(--mint);
+  color:var(--green);
+  border-radius:22px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.green { color:var(--green); }
+.red { color:var(--red); }
+
+/* 홈 */
+
+#home {
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% 20%,#e4f1e4,transparent 55%),
+    var(--cream);
+}
+
+.hero {
+  min-height:100vh;
+  padding:38px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.hero-illustration {
+  width: 180px;
+  height: 130px;
+  min-height: 130px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+
+  background: linear-gradient(135deg, #d7ebdc, #f7eed8);
+  border-radius: 30px;
+  box-shadow: 0 18px 35px #295a4430;
+}
+
+.hero-illustration span {
+  display: inline-block;
+  font-size: 55px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.hero h1 {
+  margin-top: 25px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.hero p {
+  max-width:630px;
+  color:#718b7c;
+  line-height:1.95;
+  font-size:18px;
+}
+
+.hero .btn {
+  font-size:20px;
+  padding:19px 46px;
+  margin-top:18px;
+}
+
+.hero-tags {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:31px;
+}
+
+.hero-tags span {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:25px;
+  padding:11px 15px;
+  font-size:13px;
+}
+
+.hero-note {
+  margin-top:25px;
+  max-width:640px;
+}
+
+/* 헤더 */
+
+header {
+  background:white;
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.header-inner {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:15px 0;
+}
+
+.logo {
+  font-weight:900;
+  color:var(--deep);
+  font-size:20px;
+}
+
+main { padding:26px 0 60px; }
+
+.steps {
+  display:flex;
+  gap:8px;
+  margin-bottom:22px;
+}
+
+.step {
+  flex:1;
+  border-radius:11px;
+  padding:12px 6px;
+  background:#ecf1e9;
+  text-align:center;
+  color:#87988d;
+  font-weight:800;
+  font-size:13px;
+}
+
+.step.active {
+  background:var(--green);
+  color:white;
+}
+
+.step.done {
+  background:#d8ebde;
+  color:var(--green);
+}
+
+/* 입력 화면 */
+
+.section-title {
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+  margin-bottom:17px;
+}
+
+.section-title h2 { margin:0; }
+
+.field-help {
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+.info {
+  background:#eef6ef;
+  border-radius:14px;
+  padding:16px;
+  font-size:14px;
+  line-height:1.85;
+  color:#42715a;
+}
+
+.warning {
+  background:#fff3e7;
+  color:#966629;
+}
+
+.error {
+  background:#fff0f0;
+  color:#b8474c;
+}
+
+.form-actions {
+  display:flex;
+  gap:12px;
+  margin-top:22px;
+}
+
+.form-actions button { flex:1; }
+
+.sample-note {
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* 분석 중 */
+
+.analyzing {
+  padding:70px 20px;
+  text-align:center;
+}
+
+.roen-avatar {
+  font-size:88px;
+  animation:breathe 1.5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,100% { transform:scale(1); }
+  50% { transform:scale(1.12); }
+}
+
+.analyzing h2 {
+  margin-top:24px;
+  color:var(--deep);
+}
+
+.analysis-progress {
+  width:min(420px,100%);
+  height:15px;
+  background:#e4efe6;
+  border-radius:30px;
+  overflow:hidden;
+  margin:23px auto;
+}
+
+.analysis-progress div {
+  width:0;
+  height:100%;
+  background:var(--green);
+  transition:width .25s;
+}
+
+/* 보고서 */
+
+.report-hero {
+  background:linear-gradient(135deg,#205e50,#3c8063);
+  color:white;
+  border:0;
+}
+
+.report-hero h2 { color:white; }
+
+.report-hero .muted { color:#d9ebe0; }
+
+.big-number {
+  font-size:clamp(29px,5vw,46px);
+  font-weight:900;
+  margin:12px 0;
+  overflow-wrap:anywhere;
+}
+
+.stat {
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:white;
+  padding:20px;
+}
+
+.stat-icon { font-size:29px; }
+
+.stat-label {
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  margin:10px 0 6px;
+}
+
+.stat strong {
+  display:block;
+  font-size:clamp(17px,2.6vw,26px);
+  color:var(--deep);
+  overflow-wrap:anywhere;
+}
+
+.bar {
+  height:16px;
+  border-radius:30px;
+  background:#e8efe7;
+  overflow:hidden;
+  margin:14px 0;
+}
+
+.fill {
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,#65aa80,#205e50);
+  transition:width .6s;
+}
+
+.diagnosis {
+  padding:20px;
+  background:#f1f8f0;
+  border-radius:16px;
+  margin:16px 0;
+  line-height:1.9;
+  white-space:pre-line;
+}
+
+.diagnosis.caution {
+  background:#fff3e8;
+}
+
+.diagnosis.risk {
+  background:#fff0f0;
+}
+
+.recommendation {
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:17px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.recommendation:last-child { border-bottom:0; }
+
+.recommendation-icon {
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  background:var(--mint);
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+}
+
+.recommendation strong {
+  display:block;
+  margin-bottom:6px;
+}
+
+.recommendation p {
+  margin:0;
+  font-size:14px;
+  line-height:1.8;
+  color:var(--muted);
+}
+
+/* 연도별 자산 그래프 */
+
+.chart-wrap {
+  overflow-x:auto;
+  padding:15px 2px;
+}
+
+.chart {
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  min-width:400px;
+  min-height:235px;
+  border-bottom:2px solid var(--line);
+  padding:10px 5px 0;
+}
+
+.chart-column {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  min-width:39px;
+}
+
+.chart-bar {
+  width:80%;
+  min-height:3px;
+  background:linear-gradient(#78b996,#296f56);
+  border-radius:9px 9px 0 0;
+}
+
+.chart-bar.negative { background:#df8989; }
+
+.chart-column small {
+  font-size:11px;
+  color:var(--muted);
+}
+
+.chart-column span {
+  font-size:10px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+
+.plan-table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+.plan-table th,
+.plan-table td {
+  text-align:left;
+  padding:12px 9px;
+  border-bottom:1px solid var(--line);
+}
+
+.plan-table th {
+  background:#f1f7f1;
+  color:var(--green);
+}
+
+.plan-table td:last-child {
+  text-align:right;
+  font-weight:800;
+}
+
+.status {
+  font-size:13px;
+  text-align:center;
+  color:var(--muted);
+  margin-top:10px;
+}
+
+/* 알림 */
+
+.toast {
+  position:fixed;
+  z-index:100;
+  bottom:23px;
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--deep);
+  color:white;
+  padding:14px 20px;
+  border-radius:30px;
+  max-width:90%;
+  text-align:center;
+  font-size:14px;
+}
+
+footer {
+  text-align:center;
+  padding:25px;
+  color:#99a99d;
+  font-size:12px;
+  line-height:1.9;
+}
+
+@media(max-width:760px) {
+  .grid { grid-template-columns:1fr;gap:0; }
+  .grid-3 { grid-template-columns:1fr;gap:10px; }
+
+  .card { padding:18px; }
+
+  .hero-illustration {
+    width:120px;
+    height:120px;
+    font-size:65px;
+  }
+
+  .step { font-size:11px;padding:11px 4px; }
+
+  .form-actions { flex-direction:column; }
+
+  .logo { font-size:17px; }
+
+  .hero p { font-size:16px; }
+}
+
+@media print {
+  body { background:white; }
+
+  header,.steps,.no-print,.btn,footer {
+    display:none!important;
+  }
+
+  .card { box-shadow:none;break-inside:avoid; }
+
+  #reportScreen { display:block!important; }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 홈 화면 -->
+
+<section class="screen active" id="home">
+  <div class="hero">
+
+    <div class="hero-illustration">
+      <span>🌳</span>
+      <span>💰</span>
+    </div>
+
+    <h1>AI 노후자산 설계사 로엔</h1>
+
+    <p>
+      은퇴 이후의 삶, 준비는 잘하고 계신가요?<br>
+      나의 자산과 연금 정보를 입력하면<br>
+      로엔이 노후자금 계획을 함께 세워드립니다.
+    </p>
+
+    <button class="btn" id="startBtn">
+      🌿 나의 노후 설계 시작하기
+    </button>
+
+    <div class="hero-tags">
+      <span>💰 자산 진단</span>
+      <span>🏡 은퇴 생활비</span>
+      <span>📈 연금 분석</span>
+      <span>🌿 맞춤형 노후계획</span>
+    </div>
+
+    <p class="muted hero-note">
+      외부 AI 서비스나 금융기관에 연결하지 않는
+      교육용 노후자산 설계 시뮬레이터입니다.
+    </p>
+
+  </div>
+</section>
+
+<!-- 정보 입력 -->
+
+<section class="screen" id="inputScreen">
+
+  <header>
+    <div class="container header-inner">
+      <div class="logo">🌿 ROEN</div>
+      <span class="tag">나의 노후 설계</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="steps">
+      <div class="step active">1. 자산 입력</div>
+      <div class="step">2. 로엔 분석</div>
+      <div class="step">3. 설계 보고서</div>
+    </div>
+
+    <form id="retirementForm" novalidate>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>👤 기본 정보</h2>
+          <p class="muted">은퇴 시점과 계획 기간을 알려주세요.</p>
+        </div>
+
+        <div class="grid">
+
+          <div>
+            <label for="age">현재 나이 (세)</label>
+            <input id="age" type="number"
+                   min="20" max="90" step="1"
+                   value="50" required>
+          </div>
+
+          <div>
+            <label for="retireAge">희망 은퇴 나이 (세)</label>
+            <input id="retireAge" type="number"
+                   min="21" max="95" step="1"
+                   value="65" required>
+          </div>
+
+          <div>
+            <label for="planAge">노후자금 계획 종료 나이 (세)</label>
+            <input id="planAge" type="number"
+                   min="60" max="110" step="1"
+                   value="90" required>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>💰 현재 자산과 부채</h2>
+          <p class="muted">
+            금액은 모두 <strong>만원 단위</strong>로 입력해주세요.
+          </p>
+        </div>
+
+        <div class="grid">
+
+          <div>
+            <label for="assets">현재 보유 금융자산 (만원)</label>
+            <input id="assets" type="number" min="0"
+                   step="1" value="15000" required>
+            <p class="field-help">
+              예금, 적금, 투자금 등 은퇴에 사용할 수 있는 자산
+            </p>
+          </div>
+
+          <div>
+            <label for="debt">현재 부채 (만원)</label>
+            <input id="debt" type="number" min="0"
+                   step="1" value="3000" required>
+            <p class="field-help">
+              이 계산기에서는 부채를 현재 자산에서 일괄 차감합니다.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="info">
+          🏠 주택 등 매각하지 않을 실물자산은
+          이번 시뮬레이션의 은퇴 생활비 재원에서 제외해 주세요.
+          부채 상환 일정과 세금은 단순화를 위해 별도로 모델링하지 않습니다.
+        </div>
+
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>💼 소득과 저축 정보</h2>
+          <p class="muted">
+            현재 매달 얼마를 벌고 저축할 수 있는지 입력하세요.
+          </p>
+        </div>
+
+        <div class="grid">
+
+          <div>
+            <label for="monthlyIncome">현재 월 소득 (만원)</label>
+            <input id="monthlyIncome" type="number"
+                   min="0" step="1" value="400" required>
+          </div>
+
+          <div>
+            <label for="monthlyExpenses">현재 월 지출 (만원)</label>
+            <input id="monthlyExpenses" type="number"
+                   min="0" step="1" value="250" required>
+          </div>
+
+          <div>
+            <label for="monthlySaving">은퇴 전 월 저축 계획 (만원)</label>
+            <input id="monthlySaving" type="number"
+                   min="0" step="1" value="100" required>
+          </div>
+
+        </div>
+
+        <p class="muted">
+          현재 월 소득과 지출은 저축 계획이 감당 가능한지
+          판단하는 데 사용합니다.
+          예상 자산에는 입력한 월 저축액을 반영합니다.
+        </p>
+
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>🏡 은퇴 후 생활과 연금</h2>
+        </div>
+
+        <div class="grid">
+
+          <div>
+            <label for="pension">은퇴 후 예상 월 연금 수령액 (만원)</label>
+            <input id="pension" type="number"
+                   min="0" step="1" value="140" required>
+            <p class="field-help">
+              국민연금·퇴직연금·개인연금 등 예상 월 수령액 합계
+            </p>
+          </div>
+
+          <div>
+            <label for="retirementExpense">
+              희망 월 은퇴 생활비 (현재 가치, 만원)
+            </label>
+            <input id="retirementExpense" type="number"
+                   min="1" step="1" value="250" required>
+          </div>
+
+        </div>
+
+        <div class="info">
+          💡 연금은 은퇴 시작일부터 매달 일정한 명목 금액을
+          받는 것으로 가정합니다.
+          실제 연금 수령액과 개시 시기는 제도별 조건에 따라
+          달라지므로 공식 예상연금 조회 결과를 입력하면
+          더 유용합니다.
+        </div>
+
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>📊 계산 가정 설정</h2>
+        </div>
+
+        <div class="grid">
+
+          <div>
+            <label for="inflation">연간 물가상승률 (%)</label>
+            <input id="inflation" type="number"
+                   min="0" max="15" step="0.1"
+                   value="2" required>
+          </div>
+
+          <div>
+            <label for="beforeReturn">은퇴 전 연간 예상 수익률 (%)</label>
+            <input id="beforeReturn" type="number"
+                   min="-20" max="20" step="0.1"
+                   value="3" required>
+          </div>
+
+          <div>
+            <label for="afterReturn">은퇴 후 연간 예상 수익률 (%)</label>
+            <input id="afterReturn" type="number"
+                   min="-20" max="20" step="0.1"
+                   value="2" required>
+          </div>
+
+        </div>
+
+        <p class="muted">
+          입력한 수익률은 예측 결과가 아닌 계산 가정입니다.
+          세금, 수수료, 연금 인상률, 의료비 급증 등의
+          요소는 별도로 반영하지 않았습니다.
+        </p>
+
+      </section>
+
+      <section class="card no-print">
+
+        <div class="form-actions">
+          <button class="btn btn-light" type="button"
+                  id="exampleBtn">
+            📋 예시 값 불러오기
+          </button>
+
+          <button class="btn" type="submit">
+            🌿 로엔에게 분석 요청하기
+          </button>
+        </div>
+
+      </section>
+
+    </form>
+
+  </main>
+
+</section>
+
+<!-- 분석 중 -->
+
+<section class="screen" id="analyzingScreen">
+  <main class="container">
+    <div class="card analyzing">
+
+      <div class="roen-avatar">🧑‍💼🌿</div>
+
+      <h2>로엔이 노후자금을 분석하고 있어요</h2>
+
+      <p class="muted" id="analysisMessage">
+        자산과 부채를 확인하고 있습니다.
+      </p>
+
+      <div class="analysis-progress">
+        <div id="analysisFill"></div>
+      </div>
+
+      <p class="muted">
+        입력한 조건을 기준으로 예상 결과를 계산합니다.
+      </p>
+
+    </div>
+  </main>
+</section>
+
+<!-- 보고서 -->
+
+<section class="screen" id="reportScreen">
+
+  <header>
+    <div class="container header-inner">
+      <div class="logo">🌿 ROEN</div>
+
+      <button class="btn btn-light btn-small no-print"
+              id="editBtn">
+        ✏️ 정보 수정
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="steps no-print">
+      <div class="step done">1. 자산 입력</div>
+      <div class="step done">2. 로엔 분석</div>
+      <div class="step active">3. 설계 보고서</div>
+    </div>
+
+    <section class="card report-hero">
+
+      <p>🌿 로엔의 맞춤형 노후자산 진단 보고서</p>
+
+      <h2 id="reportHeadline">나의 노후 준비 현황</h2>
+
+      <div class="big-number" id="retirementAsset">
+        0만원
+      </div>
+
+      <p class="muted">
+        희망 은퇴 시점에 예상되는 금융자산
+      </p>
+
+      <div class="between">
+        <span id="retirementYear">은퇴까지 0년</span>
+        <span id="reportStatus">분석 완료</span>
+      </div>
+
+    </section>
+
+    <!-- 핵심 지표 -->
+
+    <div class="grid-3">
+
+      <section class="stat">
+        <div class="stat-icon">💰</div>
+        <span class="stat-label">현재 순금융자산</span>
+        <strong id="netWorth">0만원</strong>
+      </section>
+
+      <section class="stat">
+        <div class="stat-icon">🏡</div>
+        <span class="stat-label">은퇴 첫 달 예상 생활비</span>
+        <strong id="futureExpense">0만원</strong>
+      </section>
+
+      <section class="stat">
+        <div class="stat-icon">📈</div>
+        <span class="stat-label">은퇴 후 예상 월 연금</span>
+        <strong id="pensionResult">0만원</strong>
+      </section>
+
+    </div>
+
+    <!-- 진단 -->
+
+    <section class="card" style="margin-top:20px">
+      <h2>🩺 로엔의 노후자금 진단</h2>
+
+      <div class="diagnosis" id="diagnosisText"></div>
+
+      <div class="between">
+        <strong>필요 노후자금 대비 예상 준비율</strong>
+        <strong id="fundingRate">0%</strong>
+      </div>
+
+      <div class="bar">
+        <div class="fill" id="fundingFill"></div>
+      </div>
+
+      <p class="muted">
+        준비율 = 은퇴 시 예상 금융자산 ÷
+        은퇴 후 부족 생활비를 충당하는 데 필요한
+        은퇴 시점 자금
+      </p>
+    </section>
+
+    <!-- 필요 자금 -->
+
+    <section class="card">
+      <h2>💸 은퇴 이후 필요한 돈</h2>
+
+      <div class="grid">
+
+        <div>
+          <table class="plan-table">
+            <tr>
+              <th>항목</th>
+              <th>예상 금액</th>
+            </tr>
+            <tr>
+              <td>은퇴 시점 필요 자금</td>
+              <td id="requiredCapital">-</td>
+            </tr>
+            <tr>
+              <td>은퇴 시점 예상 자산</td>
+              <td id="projectedCapital">-</td>
+            </tr>
+            <tr>
+              <td>자금 부족액</td>
+              <td id="capitalGap">-</td>
+            </tr>
+            <tr>
+              <td>추가 월 저축 필요액</td>
+              <td id="extraSaving">-</td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <div class="info">
+            📌 <strong>로엔의 계산 방식</strong><br>
+            은퇴 전에는 현재 자산과 월 저축액에
+            예상 수익률을 적용합니다.<br><br>
+            은퇴 후에는 물가를 반영한 생활비에서
+            예상 연금액을 뺀 부족분을
+            자산에서 충당합니다.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 연령별 자산 -->
+
+    <section class="card">
+      <h2>📊 나이에 따른 예상 자산 변화</h2>
+      <p class="muted">
+        입력한 수익률과 생활비가 유지된다는
+        가정으로 계산한 예상 추이입니다.
+      </p>
+
+      <div class="chart-wrap">
+        <div class="chart" id="assetChart"></div>
+      </div>
+
+      <p class="status" id="chartExplanation"></p>
+    </section>
+
+    <!-- 전략 -->
+
+    <section class="card">
+      <h2>🧑‍💼 로엔의 맞춤형 노후설계 제안</h2>
+      <div id="recommendationList"></div>
+    </section>
+
+    <!-- 시나리오 -->
+
+    <section class="card">
+      <h2>🔍 수익률 변화에 따른 비교</h2>
+
+      <p class="muted">
+        은퇴 전후 예상 수익률을 각각 2%포인트씩
+        낮추거나 높였을 때의 결과를 비교합니다.
+        실제 수익을 보장하지 않습니다.
+      </p>
+
+      <div class="grid-3" id="scenarioCards"></div>
+    </section>
+
+    <!-- 하단 -->
+
+    <section class="card">
+      <h2>📋 보고서 안내</h2>
+
+      <div class="info">
+        이 보고서는 입력한 정보를 기반으로 한
+        교육용 재무 시뮬레이션입니다.<br><br>
+        실제 국민연금·퇴직연금 수령액, 세금,
+        건강보험료, 부채 상환 조건, 투자 위험,
+        수익률 변동은 개인별로 다릅니다.<br><br>
+        중요한 은퇴·투자 결정 전에는
+        공적연금 예상 수령액과
+        금융상품 약관을 확인하고
+        전문가와 상담하세요.
+      </div>
+
+      <div class="form-actions no-print">
+        <button class="btn btn-light" id="restartBtn">
+          🔄 새 설계 시작
+        </button>
+
+        <button class="btn" id="printBtn">
+          🖨️ 보고서 인쇄
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    🌿 AI 노후자산 설계사 로엔 · ROEN<br>
+    외부 AI API 없는 규칙 기반 금융 교육 시뮬레이터
+  </footer>
+
+</section>
+
+<div id="toast" class="toast hidden"
+     role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* ======================================
+   1. 기본 함수
+====================================== */
+
+const $ = id => document.getElementById(id);
+
+let currentInput = null;
+let currentReport = null;
+let toastTimer = null;
+let analysisTimer = null;
+
+function formatNumber(value) {
+  return Math.round(value).toLocaleString("ko-KR");
+}
+
+function won(value) {
+  // 계산 내부 단위: 만원
+  return formatNumber(value) + "만원";
+}
+
+function signedWon(value) {
+  return (value<0 ? "-" : "") +
+    won(Math.abs(value));
+}
+
+function toast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.remove("hidden");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    $("toast").classList.add("hidden");
+  },2800);
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.toggle(
+      "active",
+      screen.id === id
+    );
+  });
+
+  window.scrollTo(0,0);
+}
+
+function getNumber(id) {
+  const text = $(id).value.trim();
+
+  if(text==="") return null;
+
+  const n = Number(text);
+
+  return Number.isFinite(n) ? n : null;
+}
+
+function validateRange(id,min,max,integer=false) {
+  const n = getNumber(id);
+
+  if(n===null || n<min || n>max ||
+     (integer && !Number.isInteger(n))) {
+    return null;
+  }
+
+  return n;
+}
+
+/* ======================================
+   2. 화면 이동
+====================================== */
+
+$("startBtn").onclick = () => {
+  showScreen("inputScreen");
+};
+
+$("editBtn").onclick = () => {
+  showScreen("inputScreen");
+};
+
+$("restartBtn").onclick = () => {
+  showScreen("inputScreen");
+};
+
+$("printBtn").onclick = () => {
+  window.print();
+};
+
+/* ======================================
+   3. 예시 데이터
+====================================== */
+
+const EXAMPLE = {
+  age:50,
+  retireAge:65,
+  planAge:90,
+  assets:15000,
+  debt:3000,
+  monthlyIncome:400,
+  monthlyExpenses:250,
+  monthlySaving:100,
+  pension:140,
+  retirementExpense:250,
+  inflation:2,
+  beforeReturn:3,
+  afterReturn:2
+};
+
+$("exampleBtn").onclick = () => {
+  Object.entries(EXAMPLE).forEach(([id,value]) => {
+    $(id).value = value;
+  });
+
+  toast("예시 데이터를 불러왔어요.");
+};
+
+/* ======================================
+   4. 입력 검증
+====================================== */
+
+function readInput() {
+  const fields = [
+    ["age",20,90,true,"현재 나이"],
+    ["retireAge",21,95,true,"은퇴 희망 나이"],
+    ["planAge",60,110,true,"계획 종료 나이"],
+    ["assets",0,100000000,true,"금융자산"],
+    ["debt",0,100000000,true,"부채"],
+    ["monthlyIncome",0,1000000,true,"월 소득"],
+    ["monthlyExpenses",0,1000000,true,"월 지출"],
+    ["monthlySaving",0,1000000,true,"월 저축액"],
+    ["pension",0,1000000,true,"월 연금"],
+    ["retirementExpense",1,1000000,true,"은퇴 생활비"],
+    ["inflation",0,15,false,"물가상승률"],
+    ["beforeReturn",-20,20,false,"은퇴 전 수익률"],
+    ["afterReturn",-20,20,false,"은퇴 후 수익률"]
+  ];
+
+  const data = {};
+
+  for(const [id,min,max,integer,label] of fields) {
+    const value = validateRange(id,min,max,integer);
+
+    if(value===null) {
+      toast(label+"을(를) 올바르게 입력해 주세요.");
+      $(id).focus();
+      return null;
+    }
+
+    data[id] = value;
+  }
+
+  if(data.retireAge<=data.age) {
+    toast("은퇴 나이는 현재 나이보다 커야 해요.");
+    $("retireAge").focus();
+    return null;
+  }
+
+  if(data.planAge<=data.retireAge) {
+    toast("계획 종료 나이는 은퇴 나이보다 커야 해요.");
+    $("planAge").focus();
+    return null;
+  }
+
+  return data;
+}
+
+/* ======================================
+   5. 연간 수익률을 월간 수익률로 변환
+====================================== */
+
+function monthlyRate(annualPercent) {
+  return Math.pow(
+    1+annualPercent/100,
+    1/12
+  )-1;
+}
+
+/* ======================================
+   6. 은퇴 시점 예상 자산
+====================================== */
+
+function calculateRetirementAsset(data,rateOverride=null) {
+  const years = data.retireAge-data.age;
+  const months = years*12;
+
+  const annual = rateOverride===null
+    ?data.beforeReturn
+    :rateOverride;
+
+  const r = monthlyRate(annual);
+
+  let balance = data.assets-data.debt;
+
+  for(let m=0;m<months;m++) {
+    // 월말에 저축한다고 가정
+    balance=balance*(1+r)+data.monthlySaving;
+  }
+
+  return balance;
+}
+
+/* ======================================
+   7. 은퇴 후 생활비와 연금
+====================================== */
+
+function retirementMonthlyExpense(data,monthFromNow) {
+  const years = monthFromNow/12;
+
+  return data.retirementExpense *
+    Math.pow(1+data.inflation/100,years);
+}
+
+function retirementGap(data,monthFromNow) {
+  const expense=retirementMonthlyExpense(
+    data,monthFromNow
+  );
+
+  return Math.max(0,expense-data.pension);
+}
+
+/* ======================================
+   8. 은퇴에 필요한 목표 자산 계산
+====================================== */
+
+function calculateRequiredCapital(data,afterRate=null) {
+  const yearsBefore=data.retireAge-data.age;
+  const retirementMonths=
+    (data.planAge-data.retireAge)*12;
+
+  const annual=afterRate===null
+    ?data.afterReturn
+    :afterRate;
+
+  const r=monthlyRate(annual);
+
+  let required=0;
+
+  // 은퇴 시점 현재가치:
+  // 매월 부족 생활비를 역산하여 합산
+  for(let m=0;m<retirementMonths;m++) {
+    const monthFromNow=yearsBefore*12+m;
+    const gap=retirementGap(data,monthFromNow);
+
+    required+=gap/Math.pow(1+r,m+1);
+  }
+
+  return required;
+}
+
+/* ======================================
+   9. 자산 소진 시점 계산
+====================================== */
+
+function simulateRetirement(data,initialAsset,afterRate=null) {
+  const yearsBefore=data.retireAge-data.age;
+  const retirementMonths=
+    (data.planAge-data.retireAge)*12;
+
+  const annual=afterRate===null
+    ?data.afterReturn
+    :afterRate;
+
+  const r=monthlyRate(annual);
+
+  let balance=initialAsset;
+  let depletedAge=null;
+
+  const points=[
+    {
+      age:data.retireAge,
+      asset:balance
+    }
+  ];
+
+  for(let m=0;m<retirementMonths;m++) {
+    balance=balance*(1+r);
+
+    const gap=retirementGap(
+      data,yearsBefore*12+m
+    );
+
+    balance-=gap;
+
+    if(balance<=0 && depletedAge===null) {
+      depletedAge=data.retireAge+(m+1)/12;
+    }
+
+    // 부족 자산은 0원으로 표시.
+    // 실제 미충족 생활비는 별도 소진 상태로 안내.
+    balance=Math.max(0,balance);
+
+    if((m+1)%12===0) {
+      points.push({
+        age:data.retireAge+(m+1)/12,
+        asset:balance
+      });
+    }
+  }
+
+  return {
+    endAsset:balance,
+    depletedAge,
+    points
+  };
+}
+
+/* ======================================
+   10. 은퇴 전 추가 저축 필요액
+====================================== */
+
+function requiredExtraSaving(data,gap) {
+  if(gap<=0) return 0;
+
+  const months=(data.retireAge-data.age)*12;
+  const r=monthlyRate(data.beforeReturn);
+
+  if(Math.abs(r)<1e-10) {
+    return gap/months;
+  }
+
+  const factor=(Math.pow(1+r,months)-1)/r;
+
+  return gap/factor;
+}
+
+/* ======================================
+   11. 전체 분석 엔진
+====================================== */
+
+function analyze(data) {
+  const currentNet=data.assets-data.debt;
+
+  const projected=calculateRetirementAsset(data);
+  const required=calculateRequiredCapital(data);
+
+  const shortfall=Math.max(0,required-projected);
+  const extraMonthly=requiredExtraSaving(data,shortfall);
+
+  const funded=required<=0
+    ?100
+    :Math.max(0,projected/required*100);
+
+  const retirementYears=data.retireAge-data.age;
+
+  const initialExpense=retirementMonthlyExpense(
+    data,retirementYears*12
+  );
+
+  const simulation=simulateRetirement(
+    data,projected
+  );
+
+  const surplus=data.monthlyIncome-data.monthlyExpenses;
+
+  return {
+    currentNet,
+    projected,
+    required,
+    shortfall,
+    extraMonthly,
+    funded,
+    retirementYears,
+    initialExpense,
+    pension:data.pension,
+    initialGap:Math.max(
+      0,initialExpense-data.pension
+    ),
+    surplus,
+    affordable:data.monthlySaving<=surplus,
+    ...simulation
+  };
+}
+
+/* ======================================
+   12. 분석 시작
+====================================== */
+
+$("retirementForm").addEventListener(
+  "submit",event => {
+    event.preventDefault();
+
+    const data=readInput();
+    if(!data)return;
+
+    currentInput=data;
+    currentReport=analyze(data);
+
+    showScreen("analyzingScreen");
+
+    const stages=[
+      "현재 금융자산과 부채를 계산하고 있습니다.",
+      "은퇴 시점의 예상 자산을 추정하고 있습니다.",
+      "연금 수입과 노후 생활비를 비교하고 있습니다.",
+      "맞춤형 은퇴 보고서를 정리하고 있습니다."
+    ];
+
+    let step=0;
+
+    $("analysisFill").style.width="0%";
+    $("analysisMessage").textContent=stages[0];
+
+    clearInterval(analysisTimer);
+
+    analysisTimer=setInterval(()=>{
+      step++;
+
+      $("analysisFill").style.width=
+        Math.min(100,step*25)+"%";
+
+      $("analysisMessage").textContent=
+        stages[Math.min(step,3)];
+
+      if(step>=4) {
+        clearInterval(analysisTimer);
+        renderReport();
+        showScreen("reportScreen");
+      }
+
+    },350);
+  }
+);
+
+/* ======================================
+   13. 진단 문구
+====================================== */
+
+function diagnosisText(data,r) {
+  const depleted=r.depletedAge!==null;
+
+  if(r.required<=0) {
+    return {
+      type:"",
+      title:"🌿 연금으로 예상 생활비 충당 가능",
+      text:
+        "설정한 조건에서는 은퇴 이후 예상 연금액이 "+
+        "매월 생활비를 충당할 수 있어요.\n\n"+
+        "다만 실제 연금 수령액, 의료비, 세금 변화에 "+
+        "따라 결과가 달라질 수 있으므로 "+
+        "비상자금도 함께 준비하세요."
+    };
+  }
+
+  if(r.funded>=100 && !depleted) {
+    return {
+      type:"",
+      title:"✅ 현재 가정에서는 노후자금 준비 양호",
+      text:
+        "예상 은퇴 금융자산이 계산된 필요 자금보다 "+
+        "많아요.\n\n"+
+        "다만 높은 수익률을 보장받는 것은 아니므로 "+
+        "물가상승과 시장 하락 상황도 점검하는 것이 좋아요."
+    };
+  }
+
+  if(r.funded>=70) {
+    return {
+      type:"caution",
+      title:"⚠️ 노후자금 보완이 필요합니다",
+      text:
+        "목표에 비교적 가까워졌지만 "+
+        "계획 종료 나이까지 필요한 자금을 "+
+        "충분히 충당하지 못할 가능성이 있어요.\n\n"+
+        (depleted
+          ?`현재 가정에서는 약 ${r.depletedAge.toFixed(1)}세에 자산이 소진될 수 있어요.`
+          :"추가 저축이나 은퇴 일정 조정을 검토해 보세요.")
+    };
+  }
+
+  return {
+    type:"risk",
+    title:"🚨 노후자금 부족 위험이 있습니다",
+    text:
+      "현재 저축 계획만으로는 은퇴 후 예상 생활비를 "+
+      "충당하기에 자금이 부족할 수 있어요.\n\n"+
+      (depleted
+        ?`시뮬레이션상 약 ${r.depletedAge.toFixed(1)}세에 금융자산이 소진될 수 있어요.`
+        :"은퇴 후 자금 부족 가능성을 대비해야 해요.")+
+      "\n\n저축액, 은퇴 시기, 목표 생활비를 함께 조정해 보세요."
+  };
+}
+
+/* ======================================
+   14. 보고서 표시
+====================================== */
+
+function renderReport() {
+  const data=currentInput;
+  const r=currentReport;
+
+  $("retirementAsset").textContent=
+    signedWon(r.projected);
+
+  $("retirementYear").textContent=
+    `${r.retirementYears}년 후 ${data.retireAge}세 은퇴`;
+
+  $("netWorth").textContent=
+    signedWon(r.currentNet);
+
+  $("futureExpense").textContent=
+    won(r.initialExpense);
+
+  $("pensionResult").textContent=
+    won(r.pension);
+
+  $("fundingRate").textContent=
+    r.funded.toFixed(1)+"%";
+
+  $("fundingFill").style.width=
+    Math.min(100,r.funded)+"%";
+
+  $("requiredCapital").textContent=
+    won(r.required);
+
+  $("projectedCapital").textContent=
+    signedWon(r.projected);
+
+  $("capitalGap").textContent=
+    won(r.shortfall);
+
+  $("extraSaving").textContent=
+    won(r.extraMonthly);
+
+  const diagnosis=diagnosisText(data,r);
+
+  $("reportHeadline").textContent=
+    diagnosis.title;
+
+  $("diagnosisText").className=
+    "diagnosis "+diagnosis.type;
+
+  $("diagnosisText").textContent=
+    diagnosis.text;
+
+  $("reportStatus").textContent=
+    r.funded>=100
+      ?"노후 준비 양호"
+      :"보완 계획 필요";
+
+  renderRecommendations(data,r);
+  renderChart(data,r);
+  renderScenarios(data);
+}
+
+/* ======================================
+   15. 로엔 맞춤형 조언
+====================================== */
+
+function addRecommendation(icon,title,body) {
+  const row=document.createElement("div");
+  row.className="recommendation";
+
+  const image=document.createElement("div");
+  image.className="recommendation-icon";
+  image.textContent=icon;
+
+  const content=document.createElement("div");
+
+  const heading=document.createElement("strong");
+  heading.textContent=title;
+
+  const description=document.createElement("p");
+  description.textContent=body;
+
+  content.append(heading,description);
+  row.append(image,content);
+
+  $("recommendationList").appendChild(row);
+}
+
+function renderRecommendations(data,r) {
+  const box=$("recommendationList");
+  box.replaceChildren();
+
+  addRecommendation(
+    "💰",
+    "현재 순자산 점검",
+    `보유 금융자산 ${won(data.assets)}에서 `+
+    `부채 ${won(data.debt)}를 빼면 `+
+    `현재 순금융자산은 ${signedWon(r.currentNet)}입니다. `+
+    "부채의 실제 상환 시기와 금리도 확인해 보세요."
+  );
+
+  if(!r.affordable) {
+    addRecommendation(
+      "⚠️",
+      "저축 계획 현실성 점검",
+      `현재 월 소득에서 지출을 빼면 ${signedWon(r.surplus)}이지만 `+
+      `계획 저축액은 ${won(data.monthlySaving)}입니다. `+
+      "지출을 조정하거나 저축 목표를 현실적으로 변경해 보세요."
+    );
+  } else {
+    addRecommendation(
+      "🌱",
+      "현재 저축 습관 유지",
+      `월 소득에서 지출을 뺀 금액은 ${signedWon(r.surplus)}이며 `+
+      `계획 저축액은 ${won(data.monthlySaving)}입니다. `+
+      "비상자금을 확보하면서 꾸준히 저축해 보세요."
+    );
+  }
+
+  if(r.shortfall>0) {
+    addRecommendation(
+      "📈",
+      "부족 노후자금 보완",
+      `현재 가정에서는 은퇴 시점 기준 ${won(r.shortfall)}이 부족합니다. `+
+      `다른 조건을 유지한다면 월 ${won(r.extraMonthly)} 정도의 `+
+      "추가 저축이 필요할 것으로 계산됩니다."
+    );
+  } else {
+    addRecommendation(
+      "🛡️",
+      "안정성 중심의 자산 점검",
+      "현재 가정에서는 노후자금이 충분하게 계산됩니다. "+
+      "과도한 수익 추구보다 자산 분산과 변동성 관리도 검토해 보세요."
+    );
+  }
+
+  addRecommendation(
+    "🏡",
+    "은퇴 후 생활비 계획",
+    `${data.retireAge}세 은퇴 첫 달 예상 생활비는 ${won(r.initialExpense)}, `+
+    `월 연금은 ${won(r.pension)}입니다. `+
+    `첫 달 부족분은 ${won(r.initialGap)}입니다. `+
+    "주거비, 의료비, 여가비를 구분해 예산을 세워 보세요."
+  );
+
+  addRecommendation(
+    "👵",
+    "연금 수령액 확인",
+    "국민연금, 퇴직연금, 개인연금의 실제 개시 시기와 "+
+    "예상 수령액을 확인해 입력값을 업데이트해 보세요. "+
+    "이 보고서는 연금의 향후 인상률을 반영하지 않습니다."
+  );
+
+  addRecommendation(
+    "🌦️",
+    "예상하지 못한 위험 대비",
+    "의료비 증가, 물가 변동, 투자 손실, 장수 위험에 대비해 "+
+    "비상자금과 보험 보장 내용을 정기적으로 점검하세요."
+  );
+}
+
+/* ======================================
+   16. 자산 변화 그래프
+====================================== */
+
+function renderChart(data,r) {
+  const box=$("assetChart");
+  box.replaceChildren();
+
+  const points=[];
+
+  // 현재부터 은퇴까지 연도별 예상 자산
+  let balance=data.assets-data.debt;
+  const preRate=monthlyRate(data.beforeReturn);
+
+  points.push({age:data.age,asset:balance});
+
+  for(let y=data.age+1;y<=data.retireAge;y++) {
+    for(let m=0;m<12;m++) {
+      balance=balance*(1+preRate)+data.monthlySaving;
+    }
+    points.push({age:y,asset:balance});
+  }
+
+  // 은퇴 이후 자료
+  points.push(...r.points.slice(1));
+
+  // 그래프를 보기 쉽게 최대 14개 연도 추출
+  const count=Math.min(14,points.length);
+  const selected=[];
+
+  for(let i=0;i<count;i++) {
+    const idx=Math.round(
+      i*(points.length-1)/(count-1)
+    );
+
+    if(!selected.some(p=>p.age===points[idx].age)) {
+      selected.push(points[idx]);
+    }
+  }
+
+  const maximum=Math.max(
+    1,
+    ...selected.map(p=>Math.max(0,p.asset))
+  );
+
+  selected.forEach(point=>{
+    const column=document.createElement("div");
+    column.className="chart-column";
+
+    const value=document.createElement("span");
+    value.textContent=won(point.asset);
+
+    const bar=document.createElement("div");
+    bar.className="chart-bar";
+
+    if(point.asset<=0) {
+      bar.classList.add("negative");
+    }
+
+    bar.style.height=
+      Math.max(3,point.asset/maximum*150)+"px";
+
+    const age=document.createElement("small");
+    age.textContent=Math.round(point.age)+"세";
+
+    column.append(value,bar,age);
+    box.appendChild(column);
+  });
+
+  $("chartExplanation").textContent=
+    r.depletedAge!==null
+      ?`현재 조건에서는 약 ${r.depletedAge.toFixed(1)}세에 노후 금융자산이 소진됩니다.`
+      :`${data.planAge}세까지 자산이 유지되는 것으로 계산됩니다.`;
+}
+
+/* ======================================
+   17. 수익률 시나리오 비교
+====================================== */
+
+function renderScenarios(data) {
+  const box=$("scenarioCards");
+  box.replaceChildren();
+
+  const scenarios=[
+    {
+      title:"보수적 가정",
+      icon:"🌧️",
+      pre:Math.max(-20,data.beforeReturn-2),
+      post:Math.max(-20,data.afterReturn-2)
+    },
+    {
+      title:"기본 가정",
+      icon:"🌿",
+      pre:data.beforeReturn,
+      post:data.afterReturn
+    },
+    {
+      title:"낙관적 가정",
+      icon:"☀️",
+      pre:Math.min(20,data.beforeReturn+2),
+      post:Math.min(20,data.afterReturn+2)
+    }
+  ];
+
+  scenarios.forEach(s=>{
+    const asset=calculateRetirementAsset(data,s.pre);
+
+    const sim=simulateRetirement(
+      data,asset,s.post
+    );
+
+    const card=document.createElement("div");
+    card.className="stat";
+
+    const icon=document.createElement("div");
+    icon.className="stat-icon";
+    icon.textContent=s.icon;
+
+    const label=document.createElement("span");
+    label.className="stat-label";
+    label.textContent=s.title;
+
+    const number=document.createElement("strong");
+    number.textContent=signedWon(sim.endAsset);
+
+    const desc=document.createElement("p");
+    desc.className="muted";
+    desc.textContent=
+      `은퇴 전 ${s.pre.toFixed(1)}% / `+
+      `은퇴 후 ${s.post.toFixed(1)}%\n`+
+      (sim.depletedAge!==null
+        ?`약 ${sim.depletedAge.toFixed(1)}세 자산 소진`
+        :`${data.planAge}세 예상 잔액`);
+
+    desc.style.whiteSpace="pre-line";
+
+    card.append(icon,label,number,desc);
+    box.appendChild(card);
+  });
+}
+
+/* ======================================
+   18. 초기 설정
+====================================== */
+
+// 별도의 서버, API, 외부 라이브러리 없이 동작
+// 재무 정보는 외부로 전송하지 않습니다.
+// 입력값은 페이지를 새로고침하면 초기화됩니다.
+
+</script>
+</body>
+</html>
